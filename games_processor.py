@@ -1,3 +1,4 @@
+import json
 import pandas as pd
 
 df = pd.read_csv('data/games.csv')
@@ -18,12 +19,15 @@ def process_csv_series(series):
     process_comma_string(item, series_set)
   return series_set
 
+def list_to_json(title, names):
+  with open(f"output/{title}.json", "w") as outfile:
+    json.dump(list(names), outfile)
 
-genres = process_csv_series(df.Genres)
-tags = process_csv_series(df.Tags)
-categories = process_csv_series(df.Categories)
 
-# print(genres)
-# print(tags)
+genres = [{ "name": item } for item in process_csv_series(df.Genres)]
+tags = [{ "name": item } for item in process_csv_series(df.Tags)]
+categories = [{ "name": item } for item in process_csv_series(df.Categories)]
 
-print(categories)
+list_to_json('genres', genres)
+list_to_json('tags', tags)
+list_to_json('categories', categories)
