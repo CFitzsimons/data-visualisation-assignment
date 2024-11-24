@@ -7,7 +7,7 @@ export async function up (knex: Knex): Promise<void> {
       table.string('name').unique().notNullable();
     })
     .createTable('Genre', table => {
-      table.increments('id').primary().unique();
+      table.string('id').primary().unique();
       table.string('name').unique().notNullable();
     })
     .createTable('Category', table => {
@@ -19,7 +19,7 @@ export async function up (knex: Knex): Promise<void> {
       table.string('name').notNullable();
     })
     .createTable('GameTag', table => {
-      table.integer('gameID').references('Game.id');
+      table.string('gameID').references('Game.id');
       table.integer('tagID').references('Tag.id');
       table.unique(['gameID', 'tagID']);
     });

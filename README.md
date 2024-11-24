@@ -21,4 +21,9 @@ Secondly, ensure your database connection is configured.  This is done by popula
 
 There are python scripts that will process the CSV files to get them ready to be sent to the DB.  The TypeScript scripts will create the DB structure and take the processed data, writing it to the DB.  
 
+The order of operations should be:
 
+1. Download the datasets
+2. Run `python src/cleaning/games_processor.py`.  This will generate the support files in the `output` directory for loading data from the games file into a DB.
+3. Run `python src/cleaning/reviews_processor.py`.  This will clean, format, and output a slimmed down reviews file in the `output` directory.
+4. Run `npm run load-db`.  This will run the TypeScript files which will load the data from the `output` directory into a DB.
