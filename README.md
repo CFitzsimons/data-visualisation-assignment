@@ -11,7 +11,7 @@ Once extracted, ensure both CSV files are copied ot the `data` directory, the fo
 
 ```
 /data
-  games.csv
+  games.json
   reviews.csv
 ```
 

@@ -1,131 +1,104 @@
 [
   {
-    "name": "Stats"
+    "name": "Casual"
   },
   {
-    "name": "PvP"
+    "name": "Indie"
   },
   {
-    "name": "Steam Leaderboards"
+    "name": "Sports"
   },
   {
-    "name": "Single-player"
+    "name": "Action"
   },
   {
-    "name": "Tracked Motion Controller Support"
+    "name": "Adventure"
   },
   {
-    "name": "Includes Source SDK"
+    "name": "Strategy"
   },
   {
-    "name": "Shared/Split Screen"
+    "name": "Free to Play"
   },
   {
-    "name": "Mods (require HL2)"
+    "name": "Massively Multiplayer"
   },
   {
-    "name": "Captions available"
+    "name": "RPG"
   },
   {
-    "name": "LAN Co-op"
+    "name": "Simulation"
   },
   {
-    "name": "Steam Turn Notifications"
+    "name": "Early Access"
   },
   {
-    "name": "Commentary available"
+    "name": "Racing"
   },
   {
-    "name": "Steam Trading Cards"
+    "name": "Utilities"
   },
   {
-    "name": "Family Sharing"
+    "name": "Education"
   },
   {
-    "name": "Remote Play on Tablet"
+    "name": "Sexual Content"
   },
   {
-    "name": "Tracked Controller Support"
+    "name": "Nudity"
   },
   {
-    "name": "SteamVR Collectibles"
+    "name": "Violent"
   },
   {
-    "name": "MMO"
+    "name": "Gore"
   },
   {
-    "name": "Cross-Platform Multiplayer"
+    "name": "Design & Illustration"
   },
   {
-    "name": "Remote Play Together"
+    "name": "Animation & Modeling"
   },
   {
-    "name": "VR Supported"
+    "name": "Game Development"
   },
   {
-    "name": "Remote Play on TV"
+    "name": "Web Publishing"
   },
   {
-    "name": "Shared/Split Screen Co-op"
+    "name": "Software Training"
   },
   {
-    "name": "Steam Achievements"
+    "name": "Photo Editing"
   },
   {
-    "name": "Steam Timeline"
+    "name": "Audio Production"
   },
   {
-    "name": "Steam Workshop"
+    "name": "Video Production"
   },
   {
-    "name": "VR Support"
+    "name": "Accounting"
   },
   {
-    "name": "Co-op"
+    "name": "Movie"
   },
   {
-    "name": "VR Only"
+    "name": "Documentary"
   },
   {
-    "name": "Full controller support"
+    "name": "Episodic"
   },
   {
-    "name": "Multi-player"
+    "name": "Short"
   },
   {
-    "name": "LAN PvP"
+    "name": "Tutorial"
   },
   {
-    "name": "Remote Play on Phone"
+    "name": "360 Video"
   },
   {
-    "name": "Online PvP"
-  },
-  {
-    "name": "Online Co-op"
-  },
-  {
-    "name": "In-App Purchases"
-  },
-  {
-    "name": "Steam Cloud"
-  },
-  {
-    "name": "Valve Anti-Cheat enabled"
-  },
-  {
-    "name": "Mods"
-  },
-  {
-    "name": "Shared/Split Screen PvP"
-  },
-  {
-    "name": "HDR available"
-  },
-  {
-    "name": "Partial Controller Support"
-  },
-  {
-    "name": "Includes level editor"
+    "name": "Free To Play"
   }
 ]

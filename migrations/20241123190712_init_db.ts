@@ -15,11 +15,11 @@ export async function up (knex: Knex): Promise<void> {
       table.string('name').unique().notNullable();
     })
     .createTable('Game', table => {
-      table.string('id').primary().unique(); // App ID
-      table.string('name').unique().notNullable();
+      table.integer('id').primary().unique(); // App ID
+      table.string('name').notNullable();
     })
     .createTable('GameTag', table => {
-      table.string('gameID').references('Game.id');
+      table.integer('gameID').references('Game.id');
       table.integer('tagID').references('Tag.id');
       table.unique(['gameID', 'tagID']);
     });

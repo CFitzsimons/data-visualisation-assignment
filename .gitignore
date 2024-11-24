@@ -1,5 +1,4 @@
 node_modules
-data/reviews.csv
-data/games.csv
+data/*
 .DS_STORE
 .env
