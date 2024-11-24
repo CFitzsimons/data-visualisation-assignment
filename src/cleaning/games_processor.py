@@ -1,7 +1,7 @@
 import json
 import pandas as pd
 
-df = pd.read_json('data/games.json', orient='index')
+df = pd.read_json('../../data/games.json', orient='index')
 df = df.reset_index()
 df.rename(columns={'index': 'AppID'}, inplace=True)
 

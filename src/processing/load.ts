@@ -4,10 +4,10 @@ import knex from './knex';
 type ListData = { name: string }[];
 type GameData = { name: string; id: number; }[];
 
-import categories from '../output/categories.json';
-import genres from '../output/genres.json';
-import tags from '../output/tags.json';
-import games from '../output/games.json';
+import categories from '../../output/categories.json';
+import genres from '../../output/genres.json';
+import tags from '../../output/tags.json';
+import games from '../../output/games.json';
 
 const loadList = async (data: ListData, tableName: string) => {
   await knex(tableName)
