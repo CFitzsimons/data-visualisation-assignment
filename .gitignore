@@ -4,3 +4,4 @@ data/*
 .env
 output/unknownGameReviews/*
 output/clean-reviews.csv
+logs

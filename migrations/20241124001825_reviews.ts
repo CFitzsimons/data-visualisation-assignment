@@ -8,7 +8,7 @@ export async function up (knex: Knex): Promise<void> {
     })
     .createTable('Review', table => {
       table.string('id').unique();
-      table.integer('gameID').references('Game.id');
+      table.string('gameID').references('Game.id');
       table.integer('sentimentID').references('Sentiment.id');
       table.text('review');
       table.boolean('positive');
@@ -16,6 +16,9 @@ export async function up (knex: Knex): Promise<void> {
       table.bigint('funnyVotes');
       table.dateTime('created');
       table.dateTime('updated');
+      table.index('id');
+      table.index('gameID');
+      table.index('sentimentID');
     });
 }
 

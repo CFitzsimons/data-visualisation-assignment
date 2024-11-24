@@ -1,7 +1,7 @@
 import json
 import pandas as pd
 
-df = pd.read_json('../../data/games.json', orient='index')
+df = pd.read_json('./data/games.json', orient='index')
 df = df.reset_index()
 df.rename(columns={'index': 'AppID'}, inplace=True)
 
@@ -24,21 +24,41 @@ def process_csv_series(series: pd.Series):
 def list_to_json(title, names):
   with open(f"output/{title}.json", "w") as outfile:
     json.dump(list(names), outfile)
+
 def clean_and_process_series(series):
-  uniques = df.genres.apply(tuple).explode().unique()
-  return [{ "name": item } for item in uniques if type(item) is str]
+  uniques = series.apply(tuple).explode().unique()
+  return [{ "name": item, "id": index } for index, item in enumerate(uniques) if type(item) is str]
 
 
 genres = clean_and_process_series(df.genres)
 tags = clean_and_process_series(df.tags)
 categories = clean_and_process_series(df.categories)
 
+# Helper function for building relationships
+def build_relationships(df, column, items, id_field, item_field):
+    relationships = []
+    for item in items:
+        # Filter rows where the item name exists in the specified column
+        filtered_df = df[df[column].apply(lambda x: item[item_field] in x)]
+        # Build relationships
+        relationships.extend([{ "gameID": game_id, id_field: item["id"] } for game_id in filtered_df['AppID']])
+    return relationships
+
+# Generate game_genres, game_tags, game_categories
+game_genres = build_relationships(df, 'genres', genres, 'genreID', 'name')
+game_tags = build_relationships(df, 'genres', tags, 'tagID', 'name')
+game_categories = build_relationships(df, 'categories', categories, 'categoryID', 'name')
+
+
 list_to_json('genres', genres)
 list_to_json('tags', tags)
 list_to_json('categories', categories)
+list_to_json('gameGenres', game_genres)
+list_to_json('gameCategories', game_categories)
+list_to_json('gameTags', game_tags)
 
-df.drop(df.columns.difference(['AppID', 'name']), inplace=True, axis=1)
-df.rename(columns={'AppID': 'id'}, inplace=True)
-loaded_json = json.loads(df.to_json(orient='records'))
-with open(f"output/games.json", "w") as outfile:
-  json.dump(loaded_json, outfile, ensure_ascii=False)
+# df.drop(df.columns.difference(['AppID', 'name']), inplace=True, axis=1)
+# df.rename(columns={'AppID': 'id'}, inplace=True)
+# loaded_json = json.loads(df.to_json(orient='records'))
+# with open(f"output/games.json", "w") as outfile:
+#   json.dump(loaded_json, outfile, ensure_ascii=False)
