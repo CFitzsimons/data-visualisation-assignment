@@ -12,6 +12,8 @@ for df in pd.read_csv('./data/reviews.csv', chunksize=1000):
 
   ## Empty Reviews
   df.drop(df[(df.review == "")].index, inplace=True)
-  df.to_csv('output/clean-reviews.csv', header=header, mode='a')
+  df.to_csv('output/updated-ids.csv', header=header, mode='a')
+  
   header = False
+  break
   

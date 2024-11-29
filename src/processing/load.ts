@@ -62,6 +62,16 @@ const loadGames = async (data: GameData) => {
   } while (marker < data.length);
 };
 
+const processUpdates = async (result: Review[], columnToUpdate = 'positive', updateValue = false) => {
+  if (result.length === 0) {
+    return;
+  }
+  const updates: string[] = result.map((item) => item.recommendationid.toString());
+  await knex('Review')
+    .update({ [columnToUpdate]: updateValue  })
+    .whereIn('id', updates);
+};
+
 const processResults = async (result: Review[]) => {
   if (result.length === 0) {
     return;
@@ -108,6 +118,26 @@ interface Review {
   [key: string]: any;
 }
 
+const loadUpdates = async (fileName: string, columnName: string, updateValue: boolean) => {
+  const CHUNK_SIZE = 250;
+  let buffer: Review[] = [];
+  const readableStream = fs.createReadStream(fileName).pipe(parse({ headers: true }));
+  for await (const row of readableStream) {
+    buffer.push(row);
+    if (buffer.length >= CHUNK_SIZE) {
+      console.log('Chunk...');
+      await processUpdates(buffer, columnName, updateValue); // Process chunk
+      buffer = []; // Clear buffer
+    }
+  }
+
+  // Process remaining rows
+  if (buffer.length > 0) {
+    await processUpdates(buffer, columnName, updateValue);
+  }
+  
+};
+
 const loadReviews = async (fileName: string) => {
   // const stream = fs.createReadStream(fileName);
   const CHUNK_SIZE = 250;
@@ -129,13 +159,15 @@ const loadReviews = async (fileName: string) => {
 };
 
 (async () => {
-  await loadList(categories, 'Category');
-  await loadList(genres, 'Genre');
-  await loadList(tags, 'Tag');
-  await loadGames(knownGames);
-  await loadList(gameCategories as JoinData, 'GameCategory', 100, ['categoryID', 'gameID']);
-  await loadList(gameTags as JoinData, 'GameTag', 100, ['tagID', 'gameID']);
-  await loadList(gameGenres as JoinData, 'GameGenre', 100, ['genreID', 'gameID']);
-  await loadReviews('output/clean-reviews.csv');
+  // await loadList(categories, 'Category');
+  // await loadList(genres, 'Genre');
+  // await loadList(tags, 'Tag');
+  // await loadGames(knownGames);
+  // await loadList(gameCategories as JoinData, 'GameCategory', 100, ['categoryID', 'gameID']);
+  // await loadList(gameTags as JoinData, 'GameTag', 100, ['tagID', 'gameID']);
+  // await loadList(gameGenres as JoinData, 'GameGenre', 100, ['genreID', 'gameID']);
+  // await loadReviews('output/clean-reviews.csv');
+  // await loadUpdates('output/updated-ids.csv', 'positive', false);
+  await loadUpdates('output/updated-ea-ids.csv', 'earlyAccess', true);
   process.exit(1);
 })();

@@ -7,7 +7,7 @@ Ensure you grab the two required data sets.  They're both pretty large so make s
 - [Review Dataset](https://www.kaggle.com/datasets/kieranpoc/steam-reviews)
 - [Games Dataset](https://www.kaggle.com/datasets/fronkongames/steam-games-dataset)
 
-Once extracted, ensure both CSV files are copied ot the `data` directory, the folder structure should look as follows:
+Once extracted, ensure both CSV files are copied to the `data` directory, the folder structure should look as follows:
 
 ```
 /data
