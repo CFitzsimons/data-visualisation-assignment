@@ -44,36 +44,33 @@ const performAnalysis = async () => {
     const chunk = await nextChunk();
     const promises = [];
     for (let i = 0; i < chunk.length; i += 1) {
-      const promise = (async () => {
-        const review = chunk[i];
-        let s: TextClassificationSingle | TextClassificationOutput = { label: 'Unknown', score: 0 };
-        try {
-          const [piped] = await pipe([review.review]);
-          s = piped;
-        } catch {
-          // do nothing... Record as an error.
+      const review = chunk[i];
+      let s: TextClassificationSingle | TextClassificationOutput = { label: 'Unknown', score: 0 };
+      try {
+        const [piped] = await pipe([review.review]);
+        s = piped;
+      } catch {
+        // do nothing... Record as an error.
+      }
+      const { label } = (s || {}) as { label: string };
+      if (!s || !label) {
+        await knex('Review')
+          .update({ sentimentID: sentimentCache.Unknown });
+      } else {
+        let sentimentID = sentimentCache[label];
+        if (!sentimentID) {
+          const [result] = await knex('Sentiment')
+            .insert({
+              name: label,
+            })
+            .returning('id');
+            sentimentCache[label] = result.id;
+            sentimentID = result.id;
         }
-        const { label } = (s || {}) as { label: string };
-        if (!s || !label) {
-          await knex('Review')
-            .update({ sentimentID: sentimentCache.Unknown });
-        } else {
-          let sentimentID = sentimentCache[label];
-          if (!sentimentID) {
-            const [result] = await knex('Sentiment')
-              .insert({
-                name: label,
-              })
-              .returning('id');
-              sentimentCache[label] = result.id;
-              sentimentID = result.id;
-          }
-          await knex('Review')
-            .update({ sentimentID })
-            .where({ id: review.id });
-        }
-      })();
-      promises.push(promise);
+        promises.push(knex('Review')
+          .update({ sentimentID })
+          .where({ id: review.id }));
+      }
     }
     await Promise.all(promises);
   }
