@@ -6,6 +6,7 @@
   "scripts": {
     "lint": "eslint .",
     "load-db": "NODE_OPTIONS=\"--max-old-space-size=8192\" ts-node src/processing/load.ts",
+    "sentiment": "NODE_OPTIONS=\"--max-old-space-size=8192\" ts-node src/processing/sentiment.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

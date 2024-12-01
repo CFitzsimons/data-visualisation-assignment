@@ -42,18 +42,11 @@ const performAnalysis = async () => {
   const sentimentCache = await getSentiments();
   while (true) {
     const chunk = await nextChunk();
-    const promises = [];
-    for (let i = 0; i < chunk.length; i += 1) {
-      const review = chunk[i];
-      let s: TextClassificationSingle | TextClassificationOutput = { label: 'Unknown', score: 0 };
-      try {
-        const [piped] = await pipe([review.review]);
-        s = piped;
-      } catch {
-        // do nothing... Record as an error.
-      }
-      const { label } = (s || {}) as { label: string };
-      if (!s || !label) {
+    const analysisResults = await pipe(chunk.map((c) => c.review));
+    const promises = analysisResults.map(async (result, index) => {
+      const review = chunk[index];
+      const { label } = (result || {}) as { label: string };
+      if (!result || !label) {
         await knex('Review')
           .update({ sentimentID: sentimentCache.Unknown });
       } else {
@@ -67,11 +60,11 @@ const performAnalysis = async () => {
             sentimentCache[label] = result.id;
             sentimentID = result.id;
         }
-        promises.push(knex('Review')
+        await knex('Review')
           .update({ sentimentID })
-          .where({ id: review.id }));
+          .where({ id: review.id });
       }
-    }
+    });
     await Promise.all(promises);
   }
 };
